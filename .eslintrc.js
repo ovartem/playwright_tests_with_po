@@ -32,6 +32,10 @@ module.exports = {
                 SwitchCase: 1,
             },
         ],
+        'import/prefer-default-export': [
+            'off',
+            { target: 'any' },
+        ],
         'max-len': ['error', {
             code: 120,
             ignoreComments: true,
