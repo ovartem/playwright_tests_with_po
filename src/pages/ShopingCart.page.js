@@ -23,6 +23,20 @@ export class ShopingCartPage extends BaseSwagLabPage {
 
     get itemDescription() { return this.page.locator('.inventory_item_desc'); }
 
+    get checkoutButton() { return this.page.locator('.checkout_button'); }
+
+    cartItemByName(name) {
+        return this.page.locator(this.cartItemSelector, { hasText: name });
+    }
+
+    cartItemDescriptionByName(name) {
+        return this.cartItemByName(name).locator(this.itemDescription);
+    }
+
+    cartItemPriceByName(name) {
+        return this.cartItemByName(name).locator(this.itemPrice);
+    }
+
     // async below added to show the function returns a promise
     async getCartItemByName(name) { return this.page.locator(this.cartItemSelector, { hasText: name }); }
 
@@ -38,17 +52,4 @@ export class ShopingCartPage extends BaseSwagLabPage {
     async removeCartItemById(id) {
         await this.cartItems.nth(id).locator(this.removeItemSelector).click();
     };
-    async getInfoOnRandomProductsinCart() {
-        const productsInCart = await this.cartItems.all();
-        const productsfullInfo = [];
-        productsInCart.forEach(async (item) => {
-            productsfullInfo.push({
-                name: await this.getCartItemByName(item.name),
-                desc: await this.getCartItemByDesc(item.desc),
-                price: await this.getCartItemByPrice(item.price),
-            });
-        });
-        return productsfullInfo;
-    };
-
 }

@@ -1,16 +1,5 @@
-/* eslint-disable no-dupe-class-members */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable spaced-comment */
-/* eslint-disable space-before-blocks */
-/* eslint-disable eol-last */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable indent */
-/* eslint-disable padded-blocks */
-/* eslint-disable arrow-body-style */
-/* eslint-disable lines-between-class-members */
-/* eslint-disable no-extra-semi */
-/* eslint-disable linebreak-style */
 /* eslint-disable import/prefer-default-export */
+
 const { BaseSwagLabPage } = require('./BaseSwagLab.page');
 
 export class InventoryPage extends BaseSwagLabPage {
@@ -37,7 +26,7 @@ export class InventoryPage extends BaseSwagLabPage {
     }
     async openCart() {
         await this.shoppingCartLink.click();
-    }
+    };
 
     get sortingSelect() { return this.page.locator('.product_sort_container'); }
 
@@ -53,20 +42,7 @@ export class InventoryPage extends BaseSwagLabPage {
         await this.itemPrice.nth(id).textContent();
     };
 
-    async addRandomProductsToCart(desiredProductNumber) {
-        const pickedItems = [];
-            while (pickedItems.length < desiredProductNumber) {
-            const allProductButtons = await this.addItemToCartBtns.all();
-            //console.log (allProductButtons)
-            const randomProductNumber = Math.floor(Math.random() * allProductButtons.length);
-            //console.log (randomProductNumber)
-            await this.addItemToCartById(randomProductNumber);
-            pickedItems.push({
-                name: await this.getNameOfItembyId(randomProductNumber),
-                desc: await this.getDescriptionOfItembyId(randomProductNumber),
-                price: await this.getPriceOfItembyId(randomProductNumber),
-            });
-        };
-
-    };
+    async addToCartButtonByName(name) {
+        await this.page.locator('.inventory_item', { hasText: name }).locator('[id^="add-to-cart"]').click();
+    }
 }

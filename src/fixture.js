@@ -4,7 +4,8 @@ import { test as base } from '@playwright/test';
 import { LoginPage } from './pages/Login.page';
 import { InventoryPage } from './pages/Inventory.page';
 import { ShopingCartPage } from './pages/ShopingCart.page';
-import { Checkout1Page } from './pages/Checkout1.page';
+import { CheckoutPage } from './pages/Checkout.page';
+import { CheckoutPage2 } from './pages/Checkout2.page';
 
 export const test = base.extend({
     loginPage: async ({ page }, use) => {
@@ -16,7 +17,10 @@ export const test = base.extend({
     shopingCartPage: async ({ page }, use) => {
         await use(new ShopingCartPage(page));
     },
-    checkout1Page: async ({ page }, use) => {
-        await use(new Checkout1Page(page));
+    checkoutPage: async ({ page }, use) => {
+        await use(new CheckoutPage(page));
+    },
+    checkoutPage2: async ({ page }, use) => {
+        await use(new CheckoutPage2(page));
     },
 });
