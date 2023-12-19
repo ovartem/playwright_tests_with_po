@@ -1,3 +1,7 @@
+/* eslint-disable brace-style */
+/* eslint-disable block-spacing */
+/* eslint-disable space-before-blocks */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable playwright/expect-expect */
@@ -28,68 +32,66 @@ test.describe('', () => {
         await expect(shopingCartPage.cartItems).not.toBeAttached();
     });
 
-    test('Verify sorting', async ({ inventoryPage }) => {
-        // Get the initial order of product by name and price
-        const productInitialOrder = await inventoryPage.inventoryItemName.allTextContents();
-        const productPriceInitialOrder = await inventoryPage.itemPrice.allTextContents();
+    const sortingDirections = ['az', 'za', 'lohi', 'hilo'];
+
+    for (const direction of sortingDirections){
+        if (direction === 'az'){
+            test('Verify sorting by name in ASC', async ({ inventoryPage }) => {
+                // Get the initial order of product by name 
+                const productInitialOrder = await inventoryPage.inventoryItemName.allTextContents();
+
+                // Sort and verify products by name in ascending order ('A to Z')
+                await inventoryPage.sortingSelect.selectOption({ value: 'az' });
+                const actualProductNamesAscending = await inventoryPage.inventoryItemName.allTextContents();
+                const expectedProductNamesAscending = productInitialOrder.sort();
+                expect(expectedProductNamesAscending).toEqual(actualProductNamesAscending);
+            });} else if (direction === 'za'){
+            test('Verify sorting by name in DESC', async ({ inventoryPage }) => {
+                // Get the initial order of product by name 
+                const productInitialOrder = await inventoryPage.inventoryItemName.allTextContents();
+
+                // Sort and verify products by name in descending order ('Z to A')                
+                await inventoryPage.sortingSelect.selectOption({ value: 'za' });
+                const actualProductsNamesDescending = await inventoryPage.inventoryItemName.allTextContents();
+                const expectedProductNamesDescending = productInitialOrder.sort((a, b) => b.localeCompare(a));
+                expect(expectedProductNamesDescending).toEqual(actualProductsNamesDescending);
+            });} else if (direction === 'lohi'){
+            test('Verify sorting by price in ASC', async ({ inventoryPage }) => {
+                // Get the initial order of product by price
+                const productPriceInitialOrder = await inventoryPage.itemPrice.allTextContents();
+                const productPriceInitialOrderToNumbers = productPriceInitialOrder.map((str) => parseFloat(str.replace('$', '')));
     
-        // Sort and verify products by name in ascending order ('A to Z')
-        await inventoryPage.sortingSelect.selectOption({ value: 'az' });
-        const productNamesAscending = productInitialOrder.sort();
-        expect(productInitialOrder).toEqual([...productNamesAscending]);
+                // Sort and verify products by price in ascending order ('Low to High')
+                await inventoryPage.sortingSelect.selectOption({ value: 'lohi' });
+                const actualProductsPricesAscending = ((await inventoryPage.itemPrice.allTextContents()).map((str) => parseFloat(str.replace('$', ''))));
+                const expectedProductPricesAscending = productPriceInitialOrderToNumbers.sort((a, b) => {return Number(a) - Number(b)});
+                expect(expectedProductPricesAscending).toEqual(actualProductsPricesAscending);
+            });} else {
+            test('Verify sorting by price in DESC', async ({ inventoryPage }) => {
+                // Get the initial order of product by price
+                const productPriceInitialOrder = await inventoryPage.itemPrice.allTextContents();
+                const productPriceInitialOrderToNumbers = productPriceInitialOrder.map((str) => parseFloat(str.replace('$', '')));
     
-        // Sort and verify products by name in descending order ('Z to A')
-        await inventoryPage.sortingSelect.selectOption({ value: 'za' });
-        const productNamesDescending = productInitialOrder.sort((a, b) => b.localeCompare(a));
-        expect(productInitialOrder).toEqual([...productNamesDescending]);
-    
-        // Sort and verify products by price in ascending order ('Low to High')
-        await inventoryPage.sortingSelect.selectOption({ value: 'lohi' });
-        const productPricesAscending = productPriceInitialOrder.sort();
-        expect(productPriceInitialOrder).toEqual([...productPricesAscending]);
-    
-        // Sort and verify products by price in descending order ('High to Low')
-        await inventoryPage.sortingSelect.selectOption({ value: 'hilo' });
-        const productPricesDescending = productPriceInitialOrder.sort((a, b) => b.localeCompare(a));
-        expect(productPriceInitialOrder).toEqual([...productPricesDescending]);
-    });
+                // Sort and verify products by price in descending order ('High to Low')
+                await inventoryPage.sortingSelect.selectOption({ value: 'hilo' });
+                const actualProductsPricesDescending = ((await inventoryPage.itemPrice.allTextContents()).map((str) => parseFloat(str.replace('$', ''))));
+                const expectedProductPricesDescending = productPriceInitialOrderToNumbers.sort((a, b) => {return Number(b) - Number(a)});
+                expect(expectedProductPricesDescending).toEqual(actualProductsPricesDescending);
+            });}
+    };
 
     test('Add and verify several random products to the cart', async ({ inventoryPage, shopingCartPage }) => {
-        const products = [
-            {
-                name: 'Sauce Labs Backpack',
-                description: 'carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.',
-                price: '$29.99',
-            },
-            {
-                name: 'Sauce Labs Bike Light',
-                description: 'A red light isn\'t the desired state in testing but it sure helps when riding your bike at night. Water-resistant with 3 lighting modes, 1 AAA battery included.',
-                price: '$9.99',
-            },
-            {
-                name: 'Sauce Labs Fleece Jacket',
-                description: 'It\'s not every day that you come across a midweight quarter-zip fleece jacket capable of handling everything from a relaxing day outdoors to a busy day at the office.',
-                price: '$49.99',
-            },
-            {
-                name: 'Sauce Labs Bolt T-Shirt',
-                description: 'Get your testing superhero on with the Sauce Labs bolt T-shirt. From American Apparel, 100% ringspun combed cotton, heather gray with red bolt.',
-                price: '$15.99',
-            },
-            {
-                name: 'Sauce Labs Onesie',
-                description: 'Rib snap infant onesie for the junior automation engineer in development. Reinforced 3-snap bottom closure, two-needle hemmed sleeved and bottom won\'t unravel.',
-                price: '$7.99',
-            },
-            {
-                name: 'Test.allTheThings() T-Shirt (Red)',
-                description: 'This classic Sauce Labs t-shirt is perfect to wear when cozying up to your keyboard to automate a few tests. Super-soft and comfy ringspun combed cotton.',
-                price: '$15.99',
-            },
-        ];
-        //Add to cart 2 random products
-        const randomItems = products.sort(() => 0.5 - Math.random()).slice(0, 2);
-        for (let i = 0; i < randomItems.length; i+=1) {
+        const productsAvailable = await inventoryPage.addItemToCartBtns.all();
+
+        //Generate random number of products to add
+        const randomTries = Math.floor(Math.random() * productsAvailable.length);
+
+        // Populate array woth all products data
+        const products = await inventoryPage.getAllProductsData();
+        
+        //Add to cart n-number of random products
+        const randomItems = products.sort(() => 0.5 - Math.random()).slice(0, randomTries);
+        for (let i = 0; i < randomItems.length; i++) {
             await inventoryPage.addToCartButtonByName(randomItems[i].name);
         };
     
@@ -103,42 +105,17 @@ test.describe('', () => {
         }
     });
 
-    test('Add product and checkout', async ({ inventoryPage, shopingCartPage, checkoutPage, checkoutPage2 }) => {
-        const products = [
-            {
-                name: 'Sauce Labs Backpack',
-                description: 'carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.',
-                price: '$29.99',
-            },
-            {
-                name: 'Sauce Labs Bike Light',
-                description: 'A red light isn\'t the desired state in testing but it sure helps when riding your bike at night. Water-resistant with 3 lighting modes, 1 AAA battery included.',
-                price: '$9.99',
-            },
-            {
-                name: 'Sauce Labs Fleece Jacket',
-                description: 'It\'s not every day that you come across a midweight quarter-zip fleece jacket capable of handling everything from a relaxing day outdoors to a busy day at the office.',
-                price: '$49.99',
-            },
-            {
-                name: 'Sauce Labs Bolt T-Shirt',
-                description: 'Get your testing superhero on with the Sauce Labs bolt T-shirt. From American Apparel, 100% ringspun combed cotton, heather gray with red bolt.',
-                price: '$15.99',
-            },
-            {
-                name: 'Sauce Labs Onesie',
-                description: 'Rib snap infant onesie for the junior automation engineer in development. Reinforced 3-snap bottom closure, two-needle hemmed sleeved and bottom won\'t unravel.',
-                price: '$7.99',
-            },
-            {
-                name: 'Test.allTheThings() T-Shirt (Red)',
-                description: 'This classic Sauce Labs t-shirt is perfect to wear when cozying up to your keyboard to automate a few tests. Super-soft and comfy ringspun combed cotton.',
-                price: '$15.99',
-            },
-        ];
+    test.only('Add product and checkout', async ({ inventoryPage, shopingCartPage, checkoutPage, checkoutPage2 }) => {
+        const productsAvailable = await inventoryPage.addItemToCartBtns.all();
 
-        // Add to cart 2 random products
-        const randomItems = products.sort(() => 0.5 - Math.random()).slice(0, 2);
+        //Generate random number of products to add
+        const randomTries = Math.floor(Math.random() * productsAvailable.length);
+
+        // Populate array woth all products data
+        const products = await inventoryPage.getAllProductsData();
+
+        // Add to cart n-number of random products
+        const randomItems = products.sort(() => 0.5 - Math.random()).slice(0, randomTries);
         for (let i = 0; i < randomItems.length; i++) {
             await inventoryPage.addToCartButtonByName(randomItems[i].name);
         }
@@ -152,7 +129,7 @@ test.describe('', () => {
         let countTotal = [];
 
         // Verify poducts added by Name, Description and price and adding selected elements to array
-        for (let i = 0; i < randomItems.length; i += 1) {
+        for (let i = 0; i < randomItems.length; i++) {
             await expect(checkoutPage2.checkoutItemByName(randomItems[i].name)).toBeVisible();
             await expect(checkoutPage2.checkoutItemDescriptionByName(randomItems[i].name)).toHaveText(randomItems[i].description);
             await expect(checkoutPage2.checkoutItemPriceByName(randomItems[i].name)).toHaveText(randomItems[i].price);

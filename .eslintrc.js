@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 module.exports = {
     env: {
         commonjs: true,
@@ -26,6 +25,8 @@ module.exports = {
         ecmaVersion: 'latest',
     },
     rules: {
+        'linebreak-style': 'off',
+        'import/prefer-default-export': 'off',
         indent: [
             'error',
             4,

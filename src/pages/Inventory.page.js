@@ -17,7 +17,7 @@ export class InventoryPage extends BaseSwagLabPage {
 
     get itemDescription() { return this.page.locator('.inventory_item_desc'); }
 
-    get shoppingCartLink() { return this.page.locator('.shopping_cart_link') }
+    get shoppingCartLink() { return this.page.locator('.shopping_cart_link');}
 
     get alreadySelectedProduct() { return this.page.locator('#remove-sauce-labs-bike-light')}
 
@@ -30,17 +30,31 @@ export class InventoryPage extends BaseSwagLabPage {
 
     get sortingSelect() { return this.page.locator('.product_sort_container'); }
 
-    async getNameOfItembyId(id) {
-        await this.inventoryItemName.nth(id).textContent();
+    getNameOfItembyId(id) {
+        return this.page.locator('.inventory_item_name').nth(id).textContent();
     };
 
-    async getDescriptionOfItembyId(id) {
-        await this.itemDescription.nth(id).textContent();
+    getDescriptionOfItembyId(id) {
+        return this.itemDescription.nth(id).textContent();
     };
 
-    async getPriceOfItembyId(id) {
-        await this.itemPrice.nth(id).textContent();
+    getPriceOfItembyId(id) {
+        return this.itemPrice.nth(id).textContent();
     };
+
+    async getAllProductsData() {
+        const products = [];
+        const allProductsCount = await this.inventoryItems.count();
+        for (let i = 0; i < allProductsCount; i += 1) {
+            products.push({
+                name: await this.getNameOfItembyId(i),
+                description: await this.getDescriptionOfItembyId(i),
+                price: await this.getPriceOfItembyId(i),
+            });
+        }
+        return products;
+    }
+
 
     async addToCartButtonByName(name) {
         await this.page.locator('.inventory_item', { hasText: name }).locator('[id^="add-to-cart"]').click();
