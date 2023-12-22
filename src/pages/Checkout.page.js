@@ -1,7 +1,3 @@
-/* eslint-disable no-extra-semi */
-/* eslint-disable linebreak-style */
-/* eslint-disable import/prefer-default-export */
-
 const { BaseSwagLabPage } = require('./BaseSwagLab.page');
 
 export class CheckoutPage extends BaseSwagLabPage {
@@ -16,7 +12,7 @@ export class CheckoutPage extends BaseSwagLabPage {
     get continueBtn() { return this.page.locator('.submit-button'); }
 
     // eslint-disable-next-line linebreak-style
-    async fillCustomerData(firstName, lastName, zipCode) {
+    async fillAndSendCustomerData(firstName, lastName, zipCode) {
         await this.firstName.fill(firstName);
         await this.lastName.fill(lastName);
         await this.zipCode.fill(zipCode);

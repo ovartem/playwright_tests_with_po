@@ -1,6 +1,5 @@
 const { BasePage } = require('./Base.page');
 
-// eslint-disable-next-line import/prefer-default-export
 export class LoginPage extends BasePage {
     get userName() { return this.page.locator('#user-name'); }
 

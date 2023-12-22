@@ -1,7 +1,6 @@
 const { BaseSwagLabPage } = require('./BaseSwagLab.page');
 
-// eslint-disable-next-line import/prefer-default-export
-export class CheckoutPage2 extends BaseSwagLabPage {
+export class CheckoutStepTwoPage extends BaseSwagLabPage {
     url = '/checkout-step-two.html';
 
     cartItemSelector = '.cart_item';

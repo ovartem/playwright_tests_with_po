@@ -1,11 +1,5 @@
-/* eslint-disable lines-between-class-members */
-/* eslint-disable no-extra-semi */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable padded-blocks */
-/* eslint-disable linebreak-style */
 const { BaseSwagLabPage } = require('./BaseSwagLab.page');
 
-// eslint-disable-next-line import/prefer-default-export
 export class ShopingCartPage extends BaseSwagLabPage {
     url = '/cart.html';
 

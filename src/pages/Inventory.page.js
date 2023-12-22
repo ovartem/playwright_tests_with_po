@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 const { BaseSwagLabPage } = require('./BaseSwagLab.page');
 
 export class InventoryPage extends BaseSwagLabPage {
@@ -30,16 +28,16 @@ export class InventoryPage extends BaseSwagLabPage {
 
     get sortingSelect() { return this.page.locator('.product_sort_container'); }
 
-    getNameOfItembyId(id) {
-        return this.page.locator('.inventory_item_name').nth(id).textContent();
+    getNameOfItembyIndex(index) {
+        return this.page.locator('.inventory_item_name').nth(index).textContent();
     };
 
-    getDescriptionOfItembyId(id) {
-        return this.itemDescription.nth(id).textContent();
+    getDescriptionOfItembyIndex(index) {
+        return this.itemDescription.nth(index).textContent();
     };
 
-    getPriceOfItembyId(id) {
-        return this.itemPrice.nth(id).textContent();
+    getPriceOfItembyIndex(index) {
+        return this.itemPrice.nth(index).textContent();
     };
 
     async getAllProductsData() {
@@ -47,9 +45,9 @@ export class InventoryPage extends BaseSwagLabPage {
         const allProductsCount = await this.inventoryItems.count();
         for (let i = 0; i < allProductsCount; i += 1) {
             products.push({
-                name: await this.getNameOfItembyId(i),
-                description: await this.getDescriptionOfItembyId(i),
-                price: await this.getPriceOfItembyId(i),
+                name: await this.getNameOfItembyIndex(i),
+                description: await this.getDescriptionOfItembyIndex(i),
+                price: await this.getPriceOfItembyIndex(i),
             });
         }
         return products;
