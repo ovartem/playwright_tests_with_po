@@ -23,55 +23,40 @@ test.describe('', () => {
         await expect(shopingCartPage.cartItems).not.toBeAttached();
     });
 
-    const sortingDirections = ['az', 'za', 'lohi', 'hilo'];
+    const testOptions = [
+        {direction: "az", getExpectedResult: (productInitialOrder) => {
+            return productInitialOrder.sort();
+        }},
+        {direction: "za", getExpectedResult: (productInitialOrder) => {
+            return productInitialOrder.sort((a, b) => b.localeCompare(a));
+        }},
+        {direction: "lohi", getExpectedResultPrice: (productPriceInitialOrderToNumbers) => {
+            return productPriceInitialOrderToNumbers.sort((a, b) => Number(a) - Number(b));;
+        }},
+        {direction: "hilo", getExpectedResultPrice: (productPriceInitialOrderToNumbers) => {
+            return productPriceInitialOrderToNumbers.sort((a, b) => Number(b) - Number(a));
+        }},
+        
+    ];
 
-    for (const direction of sortingDirections) {
-        if (direction === 'az') {
-            test(`Verify sorting by name in ${direction}`, async ({ inventoryPage }) => {
-                // Get the initial order of product by name
+    for (const option of testOptions) {
+        test(`Verify sorting by name in ${option.direction}`, async ({ inventoryPage }) => {
+            if (option.getExpectedResult){        
                 const productInitialOrder = await inventoryPage.inventoryItemName.allTextContents();
-                // Sort and verify products by name in ascending order ('A to Z')
-                await inventoryPage.sortingSelect.selectOption({ value: 'az' });
-                const actualProductNamesAscending = await inventoryPage.inventoryItemName.allTextContents();
-                const expectedProductNamesAscending = productInitialOrder.sort();
-                expect(expectedProductNamesAscending).toEqual(actualProductNamesAscending);
-            });
-        } else if (direction === 'za') {
-            test(`Verify sorting by name in ${direction}`, async ({ inventoryPage }) => {
-                // Get the initial order of product by name
-                const productInitialOrder = await inventoryPage.inventoryItemName.allTextContents();
-
-                // Sort and verify products by name in descending order ('Z to A')
-                await inventoryPage.sortingSelect.selectOption({ value: 'za' });
-                const actualProductsNamesDescending = await inventoryPage.inventoryItemName.allTextContents();
-                const expectedProductNamesDescending = productInitialOrder.sort((a, b) => b.localeCompare(a));
-                expect(expectedProductNamesDescending).toEqual(actualProductsNamesDescending);
-            });
-        } else if (direction === 'lohi') {
-            test(`Verify sorting by price in ${direction}`, async ({ inventoryPage }) => {
-                // Get the initial order of product by price
+                await inventoryPage.sortingSelect.selectOption({ value: option.direction});
+                const actualProductNames = await inventoryPage.inventoryItemName.allTextContents();
+                const expectedProductNames = option.getExpectedResult(productInitialOrder)
+                expect(actualProductNames).toEqual(expectedProductNames);
+            }
+            if (option.getExpectedResultPrice){
                 const productPriceInitialOrder = await inventoryPage.itemPrice.allTextContents();
+                await inventoryPage.sortingSelect.selectOption({ value: option.direction});
                 const productPriceInitialOrderToNumbers = productPriceInitialOrder.map((str) => parseFloat(str.replace('$', '')));
-
-                // Sort and verify products by price in ascending order ('Low to High')
-                await inventoryPage.sortingSelect.selectOption({ value: 'lohi' });
-                const actualProductsPricesAscending = ((await inventoryPage.itemPrice.allTextContents()).map((str) => parseFloat(str.replace('$', ''))));
-                const expectedProductPricesAscending = productPriceInitialOrderToNumbers.sort((a, b) => Number(a) - Number(b));
-                expect(expectedProductPricesAscending).toEqual(actualProductsPricesAscending);
-            });
-        } else {
-            test(`Verify sorting by price in ${direction}`, async ({ inventoryPage }) => {
-                // Get the initial order of product by price
-                const productPriceInitialOrder = await inventoryPage.itemPrice.allTextContents();
-                const productPriceInitialOrderToNumbers = productPriceInitialOrder.map((str) => parseFloat(str.replace('$', '')));
-
-                // Sort and verify products by price in descending order ('High to Low')
-                await inventoryPage.sortingSelect.selectOption({ value: 'hilo' });
-                const actualProductsPricesDescending = ((await inventoryPage.itemPrice.allTextContents()).map((str) => parseFloat(str.replace('$', ''))));
-                const expectedProductPricesDescending = productPriceInitialOrderToNumbers.sort((a, b) => Number(b) - Number(a));
-                expect(expectedProductPricesDescending).toEqual(actualProductsPricesDescending);
-            });
-        };
+                const actualProductsPrices = ((await inventoryPage.itemPrice.allTextContents()).map((str) => parseFloat(str.replace('$', ''))));
+                const expectedProductPrices = option.getExpectedResultPrice(productPriceInitialOrderToNumbers)
+                expect(actualProductsPrices).toEqual(expectedProductPrices);
+            }
+        });
     }
 
     test('Add and verify several random products to the cart', async ({ inventoryPage, shopingCartPage }) => {
