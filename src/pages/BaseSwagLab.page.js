@@ -1,5 +1,3 @@
-/* eslint-disable linebreak-style */
-/* eslint-disable import/prefer-default-export */
 const { BasePage } = require('./Base.page');
 
 export class BaseSwagLabPage extends BasePage {

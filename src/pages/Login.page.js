@@ -7,7 +7,6 @@ export class LoginPage extends BasePage {
 
     get loginBtn() { return this.page.locator('#login-button'); }
 
-    // eslint-disable-next-line linebreak-style
     async performLogin(userName, password) {
         await this.userName.fill(userName);
         await this.password.fill(password);

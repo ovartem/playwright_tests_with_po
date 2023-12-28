@@ -11,7 +11,6 @@ export class CheckoutPage extends BaseSwagLabPage {
 
     get continueBtn() { return this.page.locator('.submit-button'); }
 
-    // eslint-disable-next-line linebreak-style
     async fillAndSendCustomerData(firstName, lastName, zipCode) {
         await this.firstName.fill(firstName);
         await this.lastName.fill(lastName);
