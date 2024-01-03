@@ -1,23 +1,15 @@
-const { BaseSwagLabPage } = require("./BaseSwagLab.page");
 
-export class InventoryPage extends BaseSwagLabPage {
-  url = "/inventory.html";
+const { CheckoutInfoPage } = require('./CheckOutInfo.page');
 
-  get headerTitle() {
-    return this.page.locator(".title");
-  } //
 
-  get inventoryItems() {
-    return this.page.locator(".inventory_item");
-  }
+export class CheckoutOverviewPage extends CheckoutInfoPage {
 
-  get addItemToCartBtns() {
-    return this.page.locator('[id^="add-to-cart"]');
-  }
+    url = "/checkout-step-two.html";
 
-  get sortContainer() {
-    return this.page.locator('[data-test="product_sort_container"]');
-  }
+
+    get cartItem() { return this.page.locator('.cart_item'); }
+
+get itemTotal() {return this.page.locator('.summary_subtotal_label')}    
 
   get productElementName() {
     return this.page.locator(".inventory_item_name ");
@@ -43,7 +35,7 @@ getPricebyIndex(i) {
 };
 
 async getProductsInformation() {
-    const numberOfProduct = await this.inventoryItems.count()
+    const numberOfProduct = await this.cartItem.count()
     const productsInfo = [];
 
     for (let i = 0; i < numberOfProduct; i += 1) {
@@ -55,14 +47,7 @@ async getProductsInformation() {
     }
     return productsInfo;
 }
-async addItemToCartByInventoryItem(index){
-    await this.page.locator(`//*[@class="inventory_item"][${index}]//*/button`).click()
-}
-  async selectPriceNumber (elem){
-    return elem.map((el) =>  Number(el.substr(1))  )
-}
 
-  async addItemToCartById(id) {
-    await this.addItemToCartBtns.nth(id).click();
-  }
+
+
 }

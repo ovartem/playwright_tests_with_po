@@ -1,45 +1,33 @@
 module.exports = {
-    env: {
-        commonjs: true,
-        es2021: true,
-        node: true,
-        mocha: true,
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true
     },
-    globals: {
-        browser: true,
-        driver: true,
-        $: true,
-        $$: true,
-    },
-    extends: [
-        'airbnb-base',
-        'plugin:import/recommended',
-        'plugin:playwright/recommended',
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
     ],
-    plugins: [
-        'import',
-    ],
-    overrides: [
-    ],
-    parserOptions: {
-        ecmaVersion: 'latest',
-    },
-    rules: {
-        indent: [
-            'error',
-            4,
-            {
-                SwitchCase: 1,
+    "overrides": [
+        {
+            "env": {
+                "node": true
             },
-        ],
-        'max-len': ['error', {
-            code: 120,
-            ignoreComments: true,
-            ignoreTrailingComments: true,
-            ignoreUrls: true,
-            ignoreStrings: true,
-            ignoreTemplateLiterals: true,
-            ignoreRegExpLiterals: true,
-        }],
+            "files": [
+                ".eslintrc.{js,cjs}"
+            ],
+            "parserOptions": {
+                "sourceType": "script"
+            }
+        }
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest"
     },
-};
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+    }
+}
