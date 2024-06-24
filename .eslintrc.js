@@ -25,6 +25,8 @@ module.exports = {
         ecmaVersion: 'latest',
     },
     rules: {
+        'linebreak-style': ['error', 'windows'],
+        'import/prefer-default-export': 'off',
         indent: [
             'error',
             4,

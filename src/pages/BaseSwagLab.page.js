@@ -8,7 +8,13 @@ export class BaseSwagLabPage extends BasePage {
 
     get shopingCartBadge() { return this.page.locator('.shopping_cart_badge'); }
 
+    get productSorting() { return this.page.locator('.product_sort_container'); }
+
     async getNumberOfItemsInCart() {
         return this.shopingCartBadge.textContent();
+    }
+
+    async performSorting() {
+        return this.productSorting.click();
     }
 }
