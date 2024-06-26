@@ -17,11 +17,11 @@ export class InventoryPage extends BaseSwagLabPage {
         await this.productSorting.selectOption(value);
     }
 
-    async assertSortingNames() {
+    async verifySortingNames() {
         return this.inventoryItemName.allTextContents();
     }
 
-    async assertSortingPrices() {
+    async verifySortingPrices() {
         const price = await this.inventoryItemPrice.allTextContents();
         return price.map((priceText) => parseFloat(priceText.replace('$', '')));
     }

@@ -27,6 +27,9 @@ module.exports = {
     rules: {
         'linebreak-style': ['error', 'windows'],
         'import/prefer-default-export': 'off',
+        "import/no-extraneous-dependencies": ["error", {
+            "devDependencies": ["**/test/**", "**/*.test.js", "**/fixture.js"]
+        }],
         indent: [
             'error',
             4,
