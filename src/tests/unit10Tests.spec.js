@@ -1,5 +1,5 @@
 const { expect } = require('@playwright/test');
-const { test: fixtureTest } = require('../fixture');
+const { test } = require('../fixture');
 require('dotenv').config();
 
 const standardUser = process.env.STANDARD_USER;
@@ -12,15 +12,15 @@ const sortingTests = [
     { sortOption: 'hilo', getItems: (inventoryPage) => inventoryPage.getPriceValues(), compareFunction: (a, b) => b - a },
 ];
 
-fixtureTest.describe('Unit 10', () => {
-    fixtureTest.beforeEach(async ({ loginPage, inventoryPage }) => {
+test.describe('Unit 10', () => {
+    test.beforeEach(async ({ loginPage, inventoryPage }) => {
         await loginPage.navigate();
         await loginPage.performLogin(standardUser, standardPass);
         await expect(inventoryPage.headerTitle).toBeVisible();
     });
 
     sortingTests.forEach(({ sortOption, getItems, compareFunction }) => {
-        fixtureTest(`Perform and verify ${sortOption} sorting on the Inventory page`, async ({ inventoryPage }) => {
+        test(`Perform and verify ${sortOption} sorting on the Inventory page`, async ({ inventoryPage }) => {
             await inventoryPage.productSorting.click();
             await inventoryPage.selectSortOption(sortOption);
             const items = await getItems(inventoryPage);
