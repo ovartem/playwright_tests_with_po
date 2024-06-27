@@ -29,6 +29,7 @@ module.exports = {
             'error',
             4,
             {
+                ignoredNodes: ['*'],
                 SwitchCase: 1,
             },
         ],
@@ -41,5 +42,17 @@ module.exports = {
             ignoreTemplateLiterals: true,
             ignoreRegExpLiterals: true,
         }],
+        'no-use-before-define': ['error', {
+            functions: true,
+            classes: true,
+            variables: true,
+            allowNamedExports: false,
+        }],
+        'linebreak-style': [
+        'error', 'windows',
+        ],
+        'import/prefer-default-export': [
+            ["off" | "warn" | "error"],
+        ],
     },
 };
