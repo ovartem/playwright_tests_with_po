@@ -1,19 +1,31 @@
-// @ts-check
 const { expect } = require('@playwright/test');
 const { test } = require('../fixture');
 const { currentOrderOnPage, sortArray, compareTwoArrays } = require('./utils');
 
-['az', 'za', 'lohi', 'hilo'].forEach((sortingType) => {
+const sortingTypeParams = [
+    {
+    sortingTitle: 'A to Z',
+    sortingType: 'az',
+    },
+    {
+    sortingTitle: 'Z to A',
+    sortingType: 'za',
+    },
+    {
+    sortingTitle: 'Low to High',
+    sortingType: 'lohi',
+    },
+    {
+    sortingTitle: 'High to Low',
+    sortingType: 'hilo',
+    }
+    ]
+
+    sortingTypeParams.forEach(({sortingTitle, sortingType}) => {
     test.describe('Basic tests', () => {
-        test.beforeEach(async ({ loginPage, inventoryPage }) => {
-            await loginPage.navigate();
-            await loginPage.performLogin('standard_user', 'secret_sauce');
-    
-            await expect(inventoryPage.headerTitle).toBeVisible();
-        });
-      
-        test(`Test 1 - Verify sort by ${sortingType}`, async ({ inventoryPage }) => {
+        test(`Test 1 - Verify sort by ${sortingTitle}`, async ({ inventoryPage }) => {
             // Calculate expected result
+            await inventoryPage.navigate();
             const orderOnPage = await currentOrderOnPage(sortingType, inventoryPage); 
             const sortExpected = sortArray(sortingType, orderOnPage);
             

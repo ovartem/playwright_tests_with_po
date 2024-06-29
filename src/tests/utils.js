@@ -1,4 +1,4 @@
-async function currentOrderOnPage(sortingType, inventoryPage) {
+export async function currentOrderOnPage(sortingType, inventoryPage) {
     let orderOnPage = [];
     if (sortingType == 'az' || sortingType == 'za') {
         orderOnPage = await inventoryPage.inventoryItemsNames();
@@ -8,9 +8,8 @@ async function currentOrderOnPage(sortingType, inventoryPage) {
     }
     return orderOnPage;
 };
-exports.currentOrderOnPage = currentOrderOnPage;
 
-function sortArray(sortType, arrayToSort) {
+export function sortArray(sortType, arrayToSort) {
     let sortedArray = [];
     switch (sortType) {
         case 'az':
@@ -28,9 +27,8 @@ function sortArray(sortType, arrayToSort) {
     };
     return sortedArray;
 };
-exports.sortArray = sortArray;
 
-function compareTwoArrays(arrayActual, arrayExpected) {
+export function compareTwoArrays(arrayActual, arrayExpected) {
     let compareResult = arrayActual.length;
     for (let key in arrayActual) {
         if (arrayActual[key] === arrayExpected[key]) {
@@ -39,4 +37,3 @@ function compareTwoArrays(arrayActual, arrayExpected) {
     }
     return compareResult;
 };
-exports.compareTwoArrays = compareTwoArrays;

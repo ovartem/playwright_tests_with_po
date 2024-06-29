@@ -52,7 +52,7 @@ module.exports = {
         'error', 'windows',
         ],
         'import/prefer-default-export': [
-            ["off" | "warn" | "error"],
+            ["warn"],
         ],
     },
 };

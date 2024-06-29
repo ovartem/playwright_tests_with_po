@@ -16,11 +16,11 @@ export class InventoryPage extends BaseSwagLabPage {
     }
 
     async inventoryItemsNames() {
-        return await this.inventoryItems.locator('[data-test="inventory-item-name"]').allTextContents();
+        return this.inventoryItems.locator('[data-test="inventory-item-name"]').allTextContents();
     }
 
     async inventoryItemsPrices() {
-        return await this.inventoryItems.locator('div.pricebar > div').allTextContents();
+        return this.inventoryItems.locator('div.pricebar > div').allTextContents();
     }
 
     async sortBy(sortLocator) {
