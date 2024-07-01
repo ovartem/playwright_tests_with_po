@@ -15,11 +15,11 @@ export class InventoryPage extends BaseSwagLabPage {
         await this.addItemToCartBtns.nth(id).click();
     }
 
-    async inventoryItemsNames() {
+    inventoryItemsNames() {
         return this.inventoryItems.locator('[data-test="inventory-item-name"]').allTextContents();
     }
 
-    async inventoryItemsPrices() {
+    inventoryItemsPrices() {
         return this.inventoryItems.locator('div.pricebar > div').allTextContents();
     }
 

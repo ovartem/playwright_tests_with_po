@@ -27,13 +27,3 @@ export function sortArray(sortType, arrayToSort) {
     };
     return sortedArray;
 };
-
-export function compareTwoArrays(arrayActual, arrayExpected) {
-    let compareResult = arrayActual.length;
-    for (let key in arrayActual) {
-        if (arrayActual[key] === arrayExpected[key]) {
-            compareResult--;
-        }
-    }
-    return compareResult;
-};

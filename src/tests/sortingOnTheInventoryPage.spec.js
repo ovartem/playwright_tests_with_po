@@ -36,11 +36,11 @@ const sortingTypeParams = [
             // Compare actual and expected items lists    
             expect(sortActual.length).toEqual(sortExpected.length);
     
-            const compareResult = compareTwoArrays(sortActual, sortExpected);
+            //const compareResult = compareTwoArrays(sortActual, sortExpected);
     
-            expect(compareResult, `Lists should be the same.
+            expect(sortActual, `Lists should be the same.
                 Expected sorting: ${sortExpected}
-                Actual sorting: ${sortActual}`).toEqual(0);         
+                Actual sorting: ${sortActual}`).toEqual(sortExpected);     
         });
     });
 });

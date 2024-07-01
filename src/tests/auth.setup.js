@@ -4,7 +4,7 @@ const authFile = 'playwright/.auth/user.json';
 
 setup('authenticate', async ({ page }) => {
   // Perform authentication steps. Replace these actions with your own.
-  await page.goto('https://www.saucedemo.com/');
+  await page.goto('');
   await page.locator('#user-name').fill('standard_user');
   await page.locator('#password').fill('secret_sauce');
   await page.locator('#login-button').click();
@@ -13,7 +13,8 @@ setup('authenticate', async ({ page }) => {
   //
   // Sometimes login flow sets cookies in the process of several redirects.
   // Wait for the final URL to ensure that the cookies are actually set.
-  await page.waitForURL('https://www.saucedemo.com/inventory.html');
+ await page.waitForURL('inventory.html');
+
 
   // End of authentication steps.
 
