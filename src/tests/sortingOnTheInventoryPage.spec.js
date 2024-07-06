@@ -1,6 +1,6 @@
 const { expect } = require('@playwright/test');
 const { test } = require('../fixture');
-const { currentOrderOnPage, sortArray } = require('./utils');
+const { currentOrderOnPage, sortArray } = require('./utils/utils');
 
 const sortingTypeParams = [
     {
@@ -19,7 +19,7 @@ const sortingTypeParams = [
     sortingTitle: 'High to Low',
     sortingType: 'hilo',
     }
-    ]
+];
 
     sortingTypeParams.forEach(({sortingTitle, sortingType}) => {
     test.describe('Basic tests', () => {
@@ -35,12 +35,10 @@ const sortingTypeParams = [
 
             // Compare actual and expected items lists    
             expect(sortActual.length).toEqual(sortExpected.length);
-    
-            //const compareResult = compareTwoArrays(sortActual, sortExpected);
-    
+     
             expect(sortActual, `Lists should be the same.
                 Expected sorting: ${sortExpected}
-                Actual sorting: ${sortActual}`).toEqual(sortExpected);     
+                Actual sorting: ${sortActual}`).toEqual(sortExpected); 
         });
     });
 });
