@@ -22,4 +22,12 @@ export class ShopingCartPage extends BaseSwagLabPage {
     async removeCartItemById(id) {
         await this.cartItems.nth(id).locator(this.removeItemSelector).click();
     }
+
+    async itemOnPageById(id) {
+        return await this.cartItems.nth(id);
+    }
+
+    async getCartItems() {
+        return await this.page.locator(this.cartItemSelector);
+    }
 }
