@@ -2,19 +2,7 @@ import { LoginPage } from './Login.page';
 import { InventoryPage } from './Inventory.page';
 import { ShoppingCartPage } from './ShoppingCart.page';
 import { BaseSwagLabPage } from './BaseSwagLab.page';
-
-/**
- * Represents a Playwright page.
- */
-class Page {
-    /**
-     * Creates an instance of PlaywrightPage.
-     * @param {import("playwright-core").Page} page - The Playwright page instance.
-     */
-    constructor(page) {
-        this.page = page;
-    }
-}
+import { Page } from './Page';
 
 /**
  * Represents the application under test.
