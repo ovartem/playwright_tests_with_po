@@ -13,6 +13,8 @@ const { defineConfig, devices } = require('@playwright/test');
 module.exports = defineConfig({
     testDir: './src/tests',
 
+    testMatch: ['**/*.spec.js', '**/*.test.js'],
+
     /* Run tests in files in parallel */
     fullyParallel: true,
 
@@ -54,6 +56,8 @@ module.exports = defineConfig({
             fullPage: true,
             mode: 'only-on-failure',
         },
+
+        testIdAttribute: 'data-test',
     },
 
     /* Configure projects for major browsers */
