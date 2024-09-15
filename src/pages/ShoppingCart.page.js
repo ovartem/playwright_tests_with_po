@@ -11,6 +11,18 @@ export class ShoppingCartPage extends BaseSwagLabPage {
 
     cartItems = this.page.locator(this.cartItemSelector);
 
+    async getCartData() {
+        const products = await this.cartItems.all();
+
+        return Promise.all(
+            products.map(async (product) => ({
+                name: await product.getByTestId('inventory-item-name').textContent(),
+                description: await product.getByTestId('inventory-item-desc').textContent(),
+                price: parseFloat((await product.getByTestId('inventory-item-price').textContent()).replace('$', '')),
+            })),
+        );
+    }
+
     // async below added to show the function returns a promise
     async getCartItemByName(name) {
         return this.page.locator(this.cartItemSelector, { hasText: name });

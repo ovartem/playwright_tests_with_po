@@ -23,9 +23,15 @@ export class InventoryPage extends BaseSwagLabPage {
         return Promise.all(
             products.map(async (product) => ({
                 name: await product.getByTestId('inventory-item-name').textContent(),
+                description: await product.getByTestId('inventory-item-desc').textContent(),
                 price: parseFloat((await product.getByTestId('inventory-item-price').textContent()).replace('$', '')),
+                cartButton: product.locator('button.btn_inventory'),
             })),
         );
+    }
+
+    addToCart(product) {
+        return product.cartButton.click();
     }
 
     async getOptionValues() {
