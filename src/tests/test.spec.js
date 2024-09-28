@@ -9,7 +9,11 @@ test.describe('Inventory Sorting Tests', () => {
         await app.login.performLogin(username, password);
     });
 
-    const sortOptions = [
+    test('Sort items by different criteria', async ( /** @type {{ app: import('../pages/Application').Application }} */ { app }) => {
+        const originalNames = await app.inventory.getItemNames();
+        const originalPrices = await app.inventory.getItemPrices(); 
+
+        const sortOptions = [
         'Name (A to Z)',
         'Name (Z to A)',
         `Price (low to high)`,
@@ -17,17 +21,11 @@ test.describe('Inventory Sorting Tests', () => {
 
         ];
 
-     sortOptions.forEach(([sortByLabel, sortByValue]) => {
+        for (const sortBy of sortOptions) {
 
-        test('Inventory Sorting Tests', async ( 
-            /** @type {{ app: import('../pages/Application').Application }} */ 
-            { app }) => {
-    
-            const originalNames = await app.inventory.getItemNames();
-            const originalPrices = await app.inventory.getItemPrices(); 
-    
-            await app.inventory.selectSortOption(sortByLabel);
-            await app.inventory.verifySortedItemsByOption(sortByValue);
-        });
-    });
+            await app.inventory.selectSortOption(sortBy);
+            await app.inventory.verifySortedItemsByOption(sortBy);
+
+        }
+    })
 });
