@@ -19,7 +19,7 @@ test.describe('Inventory Sorting Tests', () => {
 
      sortOptions.forEach(([sortByLabel, sortByValue]) => {
 
-        ('Sort items by different criteria: %s', async ( 
+        test('Inventory Sorting Tests', async ( 
             /** @type {{ app: import('../pages/Application').Application }} */ 
             { app }) => {
     
