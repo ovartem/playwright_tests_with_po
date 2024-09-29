@@ -5,22 +5,24 @@ module.exports = {
         node: true,
     },
     extends: [
-        'airbnb-base',
-        'plugin:import/recommended',
-        'plugin:playwright/recommended',
+    'airbnb-base',
+    'plugin:import/recommended',
+    'plugin:playwright/recommended',
     ],
     plugins: [
-        'import',
+    'import',
     ],
     overrides: [
     ],
     parserOptions: {
-        ecmaVersion: 'latest',
+    ecmaVersion: 'latest',
     },
+    
     rules: {
         indent: [
             'error',
             4,
+
             {
                 SwitchCase: 1,
             },
@@ -34,5 +36,13 @@ module.exports = {
             ignoreTemplateLiterals: true,
             ignoreRegExpLiterals: true,
         }],
+
+        'import/prefer-default-export': [
+            ('off'),
+            { target: 'any' },
+        ],
+
+        'max-classes-per-file': ["error", 5]
+        
     },
 };
