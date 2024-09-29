@@ -1,8 +1,13 @@
-import { BaseSwagLabPage } from './BaseSwagLab.page';
 import { expect } from '@playwright/test';
+import { BaseSwagLabPage } from './BaseSwagLab.page';
+import { getRandomProducts } from '../utils/helpers';
+import { Headers } from '../components/Headers';
+
 
 export class InventoryPage extends BaseSwagLabPage {
     url = '/inventory.html';
+    
+    header;
 
     headerTitle = this.page.locator('.title');
 
@@ -15,6 +20,11 @@ export class InventoryPage extends BaseSwagLabPage {
     itemPrices = this.page.getByTestId('inventory-item-price');
 
     itemTitles = this.page.getByTestId('inventory-item-name');
+
+    constructor(page) {
+        super(page); // Виклик конструктора батьківського класу
+        this.header = new Headers(page); // Ініціалізація заголовка
+    }
 
     async addItemToCartById(id) {
         await this.addItemToCartButton.nth(id).click();
@@ -61,5 +71,29 @@ export class InventoryPage extends BaseSwagLabPage {
         }
      }
 
- 
+   async getProducts() {
+    const productElements = await this.inventoryItems.all();
+    return productElements;
+
+   }
+
+   async addRandomProductsToCart() {
+    const allProducts = await this.getProducts();
+    const randomProducts = await  getRandomProducts(allProducts, 2);
+    const products = [];
+        
+        for (const element of randomProducts) {
+            const title = await element.locator('.inventory_item_name').innerText();
+            const desc = await element.locator('.inventory_item_desc').innerText();
+            const price = await element.locator('.inventory_item_price').innerText();
+            products.push({ title, desc, price });
+            await element.locator('[id^="add-to-cart"]').click();
+        }
+
+        return products;
+   }
+
+
 }
+
+

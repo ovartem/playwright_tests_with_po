@@ -15,14 +15,13 @@ test.describe('Inventory Sorting Tests', () => {
         ['Price (low to high)'],
         ['Price (high to low)'],
     ];
-        sortOptions.forEach(([sortByLabel]) => {
-    test(`Sort items by ${sortByLabel}`, async ( /** @type {{ app: import('../pages/Application').Application }} */ { app }) => {
-        const originalNames = await app.inventory.getItemNames();
-        const originalPrices = await app.inventory.getItemPrices(); 
-
-        await app.inventory.selectSortOption(sortByLabel);
-        await app.inventory.verifySortedItemsByOption(sortByLabel);
-
+    sortOptions.forEach(([sortByLabel]) => {
+        // eslint-disable-next-line playwright/expect-expect
+        test(`Sort items by ${sortByLabel}`, async (/** @type {{ app: import('../pages/Application').Application }} */ { app }) => {
+            // const originalNames = await app.inventory.getItemNames();
+            // const originalPrices = await app.inventory.getItemPrices();
+            await app.inventory.selectSortOption(sortByLabel);
+            await app.inventory.verifySortedItemsByOption(sortByLabel);
         });
     });
 });
