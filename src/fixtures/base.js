@@ -7,9 +7,7 @@ export const test = base.extend({
             type: 'Browser',
             description: `${browser.browserType().name()} ${browser.version()}`,
         });
-
         const app = new Application(page);
-
         await use(app);
     },
 });
