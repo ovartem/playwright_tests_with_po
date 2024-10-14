@@ -10,24 +10,19 @@ test.describe('Inventory Sorting Tests', () => {
     });
 
     test('Add several random products to the Shopping Cart and verify details', async (/** @type {{ app: import('../pages/Application').Application }} */ { app }) => {
+        // const getProducts = app.inventory.getProducts
+        const addedProducts = await app.inventory.addRandomProductsToCart();
 
-    //const getProducts = app.inventory.getProducts
-    
-    const addedProducts = await app.inventory.addRandomProductsToCart();
+        const numberOfItemsInCart = await app.baseSwagLab.getNumberOfItemsInCart();
 
-    const numberOfItemsInCart = await app.baseSwagLab.getNumberOfItemsInCart();
+        expect(numberOfItemsInCart).toBe(String(addedProducts.length));
 
-    expect(numberOfItemsInCart).toBe("2");
+        await app.inventory.header.navigateToCartFromHeader();
 
-    await app.inventory.header.navigateToCartFromHeader();
+        const cartItem = await app.shoppingCart.getProductsInCart();
 
-    const cartItem = await app.shoppingCart.getProductsInCart();
+        expect(cartItem.length).toBe(addedProducts.length);
 
-    expect(cartItem.length).toBe(addedProducts.length);
-
-    await app.shoppingCart.verifyProductsInCart(addedProducts);
+        await app.shoppingCart.verifyProductsInCart(addedProducts);
     });
-
 });
-
-

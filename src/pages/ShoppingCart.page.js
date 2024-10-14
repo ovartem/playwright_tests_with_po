@@ -12,7 +12,7 @@ export class ShoppingCartPage extends BaseSwagLabPage {
 
     cartItems = this.page.locator(this.cartItemSelector);
 
-    cartItemTitles =this.page.locator('.inventory_item_name');
+    cartItemTitles = this.page.locator('.inventory_item_name');
 
     cartItemDesc = this.page.locator('.inventory_item_desc');
 
@@ -21,14 +21,12 @@ export class ShoppingCartPage extends BaseSwagLabPage {
     async getProductsInCart() {
         const cartElements = await this.cartItems.all();
         const products = [];
-    
         for (const element of cartElements) {
             const title = await element.locator('.inventory_item_name').innerText();
             const desc = await element.locator('.inventory_item_desc').innerText();
             const price = await element.locator('.inventory_item_price').innerText();
             products.push({ title, desc, price });
         }
-    
         return products;
     }
 
