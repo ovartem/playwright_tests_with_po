@@ -77,7 +77,7 @@ export class InventoryPage extends BaseSwagLabPage {
 
     async addRandomProductsToCart() {
         const allProducts = await this.getProducts();
-        const randomCount = Math.floor(Math.random() * allProducts.length) + 1;
+        const randomCount = Math.floor(Math.random() * allProducts.length);
         const randomProducts = getRandomProducts(allProducts, randomCount);
         const products = [];
         for (const element of randomProducts) {
