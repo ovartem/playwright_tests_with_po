@@ -36,10 +36,10 @@ test.describe('VerifyTotalAmount And Price', () => {
 
         await app.CheckOut2.verifyProducts(addedProducts);
 
-        let subTotalSum;
+       
         const itemsCheckout = await app.CheckOut2.getProductsInCart();
-        subTotalSum = calculateSubTotal(itemsCheckout);
-        const currentSum = await app.CheckOut2.subTotal.textContent()
+        const subTotalSum = calculateSubTotal(itemsCheckout);
+        const currentSum = await app.CheckOut2.subTotal.textContent();
         expect(`Item total: $${subTotalSum}`, 'Verify correct sub Total sum into the Checkout').toEqual(currentSum);
         
         const taxPercent = 0.08;
