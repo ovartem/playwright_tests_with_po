@@ -18,6 +18,8 @@ export class ShoppingCartPage extends BaseSwagLabPage {
 
     cartItemPrices = this.page.locator('.inventory_item_price');
 
+    buttonCheckout = this.page.getByTestId('checkout');
+
     async getProductsInCart() {
         const cartElements = await this.cartItems.all();
         const products = [];
@@ -56,5 +58,10 @@ export class ShoppingCartPage extends BaseSwagLabPage {
         await expect(cartItemTitles).toEqual(expectedTitles);
         await expect(cartItemDesc).toEqual(expectedDesc);
         await expect(cartItemPrices).toEqual(expectedPrices);
+    }
+
+    // go to Checkout from Shopping Cart
+    async gotoCheckoutFromCart() {
+        await this.buttonCheckout.click();
     }
 }

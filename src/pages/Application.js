@@ -2,7 +2,8 @@ import { LoginPage } from './Login.page';
 import { InventoryPage } from './Inventory.page';
 import { ShoppingCartPage } from './ShoppingCart.page';
 import { BaseSwagLabPage } from './BaseSwagLab.page';
-import { CheckOut } from './CheckOut.page';
+import { CheckOut } from './CheckOut1.page';
+import { CheckOut2 } from './CheckOut2.page';
 
 /**
  * Represents a Playwright page.
@@ -46,4 +47,9 @@ export class Application extends Page {
      * @type {CheckOut}
      */
     CheckOut = new CheckOut(this.page);
+
+    /**
+     * @type {CheckOut2}
+     */
+    CheckOut2 = new CheckOut2(this.page);
 }

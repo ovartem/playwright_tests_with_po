@@ -2,7 +2,7 @@ import { expect } from '@playwright/test';
 import { test } from '../fixtures/base';
 import { users } from '../test-data/users';
 
-test.describe('Inventory Sorting Tests', () => {
+test.describe('Add random Products to the Cart', () => {
     test.beforeEach(async ({ app }) => {
         const { username, password } = users.standardUser;
         await app.login.navigate();

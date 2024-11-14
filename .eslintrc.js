@@ -5,17 +5,17 @@ module.exports = {
         node: true,
     },
     extends: [
-    'airbnb-base',
-    'plugin:import/recommended',
-    'plugin:playwright/recommended',
+        'airbnb-base',
+        'plugin:import/recommended',
+        'plugin:playwright/recommended',
     ],
     plugins: [
-    'import',
+        'import',
     ],
     overrides: [
     ],
     parserOptions: {
-    ecmaVersion: 'latest',
+        ecmaVersion: 'latest',
     },
 
     rules: {
@@ -28,7 +28,7 @@ module.exports = {
             },
         ],
         'max-len': ['error', {
-            code: 120,
+            code: 150,
             ignoreComments: true,
             ignoreTrailingComments: true,
             ignoreUrls: true,
@@ -42,18 +42,16 @@ module.exports = {
             { target: 'any' },
         ],
 
-        'max-classes-per-file': ["error", 5],
+        'max-classes-per-file': ['error', 5],
 
         'no-restricted-syntax': [
-                "error",
-                {
-                    "selector": "FunctionExpression",
-                    "message": "Function expressions are not allowed."
-                },
-                {
-                    "selector": "CallExpression[callee.name='setTimeout'][arguments.length!=2]",
-                    "message": "setTimeout must always be invoked with two arguments."
-                }
-            ]
+            'error',
+            {
+                selector: "CallExpression[callee.name='setTimeout'][arguments.length!=2]",
+                message: 'setTimeout must always be invoked with two arguments.',
+            },
+        ],
+        'no-await-in-loop': 'off',
+        'radix': "off" ,
     },
 };

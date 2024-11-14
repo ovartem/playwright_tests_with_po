@@ -12,13 +12,12 @@ export class CheckOut extends BasePage {
 
     postCodeInput = this.page.locator('#postal-code');
 
-    continueButton = this.page.locator('button[name="continue"]');
+    continueButton = this.page.getByTestId('continue');
 
     async fillCheckoutData(firstName, lastName, postalCode) {
-        await this.page.fill('#first-name', firstName);
-        await this.page.fill('#last-name', lastName);
-        await this.page.fill('#postal-code', postalCode);
-        await this.page.click('#continue');
+        await this.firstNameInput.fill(firstName);
+        await this.lastNameInput.fill(lastName);
+        await this.postCodeInput.fill(postalCode);
     }
 
     async clickContinueButton() {
