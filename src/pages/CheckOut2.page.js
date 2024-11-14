@@ -1,14 +1,12 @@
 import { expect } from '@playwright/test';
-import { BaseSwagLabPage } from './BaseSwagLab.page';
+import { BasePage } from './Base.page';
 
-export class ShoppingCartPage extends BaseSwagLabPage {
-    url = '/cart.html';
-
-    cartItemSelector = '.cart_item';
-
-    removeItemSelector = '[id^="remove"]';
+export class CheckOut2 extends BasePage {
+    url = '/checkout-step-two.html';
 
     headerTitle = this.page.locator('.title');
+
+    cartItemSelector = '.cart_item';
 
     cartItems = this.page.locator(this.cartItemSelector);
 
@@ -18,7 +16,9 @@ export class ShoppingCartPage extends BaseSwagLabPage {
 
     cartItemPrices = this.page.locator('.inventory_item_price');
 
-    buttonCheckout = this.page.getByTestId('checkout');
+    subTotal = this.page.getByTestId('subtotal-label');
+
+    total = this.page.getByTestId('total-label');
 
     async getProductsInCart() {
         const cartElements = await this.cartItems.all();
@@ -27,26 +27,17 @@ export class ShoppingCartPage extends BaseSwagLabPage {
             const title = await element.locator('.inventory_item_name').innerText();
             const desc = await element.locator('.inventory_item_desc').innerText();
             const price = await element.locator('.inventory_item_price').innerText();
-            products.push({ title, desc, price });
+            const quantity = parseInt(await element.getByTestId('item-quantity').innerText());
+            const numberPrice = parseFloat(price.replace('$', ''));
+            const totalProductSum = parseFloat((quantity * numberPrice).toFixed(2));
+            products.push({
+                title, desc, price, quantity, totalProductSum,
+            });
         }
         return products;
     }
 
-    // async below added to show the function returns a promise
-    async getCartItemByName(name) {
-        return this.page.locator(this.cartItemSelector, { hasText: name });
-    }
-
-    async removeCartItemByName(name) {
-        const item = await this.getCartItemByName(name);
-        return item.locator(this.removeItemSelector);
-    }
-
-    async removeCartItemById(id) {
-        await this.cartItems.nth(id).locator(this.removeItemSelector).click();
-    }
-
-    async verifyProductsInCart(addedProducts) {
+    async verifyProducts(addedProducts) {
         const cartItemTitles = await this.cartItemTitles.allInnerTexts();
         const cartItemDesc = await this.cartItemDesc.allInnerTexts();
         const cartItemPrices = await this.cartItemPrices.allInnerTexts();
@@ -58,10 +49,5 @@ export class ShoppingCartPage extends BaseSwagLabPage {
         await expect(cartItemTitles).toEqual(expectedTitles);
         await expect(cartItemDesc).toEqual(expectedDesc);
         await expect(cartItemPrices).toEqual(expectedPrices);
-    }
-
-    // go to Checkout from Shopping Cart
-    async gotoCheckoutFromCart() {
-        await this.buttonCheckout.click();
     }
 }
