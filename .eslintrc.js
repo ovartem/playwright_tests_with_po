@@ -33,6 +33,9 @@ module.exports = {
             ignoreStrings: true,
             ignoreTemplateLiterals: true,
             ignoreRegExpLiterals: true,
+
         }],
+        'max-classes-per-file': ['error', 2],
+        'import/prefer-default-export': 'off',
     },
 };
