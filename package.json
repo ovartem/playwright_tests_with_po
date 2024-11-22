@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@playwright/test": "^1.48.2"
+    "@playwright/test": "^1.48.2",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@types/node": "^22.9.0",

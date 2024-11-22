@@ -7,6 +7,12 @@ export class ShoppingCartPage extends BaseSwagLabPage {
 
     removeItemSelector = '[id^="remove"]';
 
+    cartItemTitle = this.page.getByTestId('inventory-item-name');
+
+    cartDescTitle = this.page.getByTestId('inventory-item-desc');
+
+    cartItemPrice = this.page.getByTestId('inventory-item-price');
+
     headerTitle = this.page.locator('.title');
 
     cartItems = this.page.locator(this.cartItemSelector);
