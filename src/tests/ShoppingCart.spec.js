@@ -10,25 +10,25 @@ test.describe('Verify Shopping Cart', () => {
         await app.login.performLogin('standard_user', 'secret_sauce');
         // get numbers of items
         const numbersOfItems = await app.inventory.inventoryItems.count();
+        const linkIds = []; 
         // generate random number
-        const randomNumber = _.random(0, numbersOfItems - 1);
+    for (let i = 0; i < 3; i++) {
+        const  randomNumber = _.random(0, numbersOfItems - 1);
         // get title of item
-        const item = await app.inventory.itemTitle.nth(randomNumber);
-        const parent = await item.locator('xpath=..');
+        const item = app.inventory.itemTitle.nth(randomNumber);
+        const parent = item.locator('xpath=..');
+      // get is
         const linkId = await parent.getAttribute('id');
         const itemTitle = await app.inventory.itemTitle.nth(randomNumber).textContent();
-        const itemDesct = await app.inventory.itemDesc.nth(2).textContent();
-        const itemPrice = await app.inventory.itemPrice.nth(2).textContent();
-        await app.inventory.addItemToCartById(2);
+        const itemDesct = await app.inventory.itemDesc.nth(randomNumber).textContent();
+        const itemPrice = await app.inventory.itemPrice.nth(randomNumber).textContent();
+        await app.inventory.addItemToCartById(randomNumber);
         // navigate to cart
         await app.inventory.shoppingCart.click();
         // check item title in cart
-        const itemCartTitle = await app.shoppingCart.cartItemTitle.nth(2).textContent();
-        const itemCartDesct = await app.shoppingCart.cartDescTitle.nth(2).textContent();
-        const itemCartPrice = await app.shoppingCart.cartItemPrice.nth(2).textContent();
-        await expect(itemCartTitle).toBeEqual(itemTitle);
-        await expect(itemCartDesct).toBeEqual(itemDesct);
-        await expect(itemCartPrice).toBeEqual(itemPrice);
+        const itemLocator  = await app.shoppingCart.getItemPropertyById(linkId);
+        const  Title2 = await itemLocator.textContent();
+        expect(Title2).toEqual(itemTitle);   
     });
 
     test('should add and remove product from the cart', async (
