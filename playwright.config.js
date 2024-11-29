@@ -48,6 +48,7 @@ module.exports = defineConfig({
         trace: {
             mode: 'retain-on-failure',
         },
+        testIdAttribute: 'data-test',
 
         /* Whether to automatically capture a screenshot after each test. Defaults to `'off'` */
         screenshot: {
